@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/principal', function () {
-    return view('hola');
+    return view('hola mundo');
 });
 
 Auth::routes();
