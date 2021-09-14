@@ -19,6 +19,9 @@ class CreateVentasTable extends Migration
             $table->bigInteger('id_usuario');
             $table->string('no_doc');
             $table->string('estado');
+
+            $table->foreign('id_usuario')->references('id')->on('users');
+
             $table->timestamps();
         });
     }
