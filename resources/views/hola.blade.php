@@ -1,3 +1,5 @@
 <br>
-    Hola mundo
+    {{$texto}}
+
+    <a href="{{route('table')}}">ruta home</a>
 </br>
