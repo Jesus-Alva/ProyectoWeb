@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class NuevaTablaCategorias extends Migration
+class CreateAutorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,11 @@ class NuevaTablaCategorias extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('autor', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ class NuevaTablaCategorias extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('autor');
     }
 }
