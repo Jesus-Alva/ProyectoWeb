@@ -28,9 +28,9 @@
 </template>
 
 <script>
-    export default{            
-        setup(){
-
-        },
-        }
+export default {
+    setup() {
+        
+    },
+}
 </script>
