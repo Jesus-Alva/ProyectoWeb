@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 class librosController extends Controller
 {
-    public function index($texto){
-        return view('Hola')
-            ->with('texto',$texto);
+    public function index(){
+        return view('pages.libros');
     }
 }

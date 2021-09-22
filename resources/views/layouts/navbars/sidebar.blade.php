@@ -122,6 +122,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('r.libros') }}">
+                      <i class="ni ni-bullet-list-67 text-default"></i>
+                      <span class="nav-link-text">Libros</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
                     </a>

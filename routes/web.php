@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/principal/{texto}', [librosController::class, 'index'])->name('ruta_principal');
+
 
 Auth::routes();
 
@@ -40,5 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 	 Route::get('map', function () {return view('pages.maps');})->name('map');
 	 Route::get('icons', function () {return view('pages.icons');})->name('icons'); 
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+
+	Route::get('libros', [librosController::class, 'index'])->name('r.libros');
 });
 
