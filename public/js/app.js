@@ -5275,8 +5275,97 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  setup: function setup() {}
+  setup: function setup() {},
+  data: function data() {
+    return {
+      nuevoLibro: []
+    };
+  },
+  methods: {
+    fnNuevoLibro: function fnNuevoLibro() {
+      $("#modalNuevoLibro").modal("toggle");
+    }
+  }
 });
 
 /***/ }),
@@ -41540,84 +41629,253 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("div", { staticClass: "header bg-gradient-primary pt-5 pt-md-6" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "header pb-3" }, [
+          _c("div", { staticClass: "container-fluid" }, [
+            _c("div", { staticClass: "header-body" }, [
+              _c("div", { staticClass: "row align-items-center py-4" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-lg-6 col-5 text-right" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-neutral",
+                      attrs: { href: "#", id: "btnNuevoLibro" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fnNuevoLibro()
+                        }
+                      }
+                    },
+                    [_vm._v("Nuevo")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-neutral",
+                      attrs: { href: "#" }
+                    },
+                    [_vm._v("Recargar")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalNuevoLibro",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm._v(
+                  "\n                    " + _vm._s(_vm.nuevoLibro.codigoLibro)
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n                    " + _vm._s(_vm.nuevoLibro.nombreLibro)
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _c("form", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nuevoLibro.codigoLibro,
+                              expression: "nuevoLibro.codigoLibro"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Codigo del Libro"
+                          },
+                          domProps: { value: _vm.nuevoLibro.codigoLibro },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.nuevoLibro,
+                                "codigoLibro",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nuevoLibro.nombreLibro,
+                              expression: "nuevoLibro.nombreLibro"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Nombre del Libro"
+                          },
+                          domProps: { value: _vm.nuevoLibro.nombreLibro },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.nuevoLibro,
+                                "nombreLibro",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "header bg-primary pb-6" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "header-body" }, [
-            _c("div", { staticClass: "row align-items-center py-4" }, [
-              _c("div", { staticClass: "col-lg-6 col-7" }, [
-                _c("h6", { staticClass: "h2 text-white d-inline-block mb-0" }, [
-                  _vm._v("Tables")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "nav",
-                  {
-                    staticClass: "d-none d-md-inline-block ml-md-4",
-                    attrs: { "aria-label": "breadcrumb" }
-                  },
-                  [
-                    _c(
-                      "ol",
-                      {
-                        staticClass:
-                          "breadcrumb breadcrumb-links breadcrumb-dark"
-                      },
-                      [
-                        _c("li", { staticClass: "breadcrumb-item" }, [
-                          _c("a", { attrs: { href: "#" } }, [
-                            _c("i", { staticClass: "fas fa-home" })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "breadcrumb-item" }, [
-                          _c("a", { attrs: { href: "#" } }, [_vm._v("Tables")])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "li",
-                          {
-                            staticClass: "breadcrumb-item active",
-                            attrs: { "aria-current": "page" }
-                          },
-                          [_vm._v("Tables")]
-                        )
-                      ]
-                    )
-                  ]
-                )
+    return _c("div", { staticClass: "col-lg-6 col-7" }, [
+      _c("h6", { staticClass: "h2 text-white d-inline-block mb-0" }, [
+        _vm._v(
+          "\n                                    Libros\n                                "
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "nav",
+        {
+          staticClass: "d-none d-md-inline-block ml-md-4",
+          attrs: { "aria-label": "breadcrumb" }
+        },
+        [
+          _c(
+            "ol",
+            { staticClass: "breadcrumb breadcrumb-links breadcrumb-dark" },
+            [
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("i", { staticClass: "fas fa-home" })
+                ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-lg-6 col-5 text-right" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-neutral",
-                    attrs: { href: "#" }
-                  },
-                  [_vm._v("New")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-neutral",
-                    attrs: { href: "#" }
-                  },
-                  [_vm._v("Filters")]
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
+              _c("li", { staticClass: "breadcrumb-item" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Inicio")])
+              ]),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  staticClass: "breadcrumb-item active",
+                  attrs: { "aria-current": "page" }
+                },
+                [
+                  _vm._v(
+                    "\n                                            Libros\n                                        "
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("\n                        Libro\n                    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("\n                        Close\n                    ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "button" } },
+        [_vm._v("\n                        Save changes\n                    ")]
+      )
     ])
   }
 ]

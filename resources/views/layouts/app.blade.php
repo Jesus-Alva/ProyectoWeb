@@ -15,18 +15,19 @@
         <!-- Extra details for Live View on GitHub Pages -->
 
         <!--MIX-->
-        
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        <link type="text/xss" href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Icons -->
         <link href="{{ asset('argon') }}/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-        <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+        <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" >
         <!-- Argon CSS -->
-        <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
+        <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet" >
     </head>
     <body class="{{ $class ?? '' }}">
         <div id='app'>
         @auth()
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;" >
                 @csrf
             </form>
             @include('layouts.navbars.sidebar')
@@ -41,13 +42,13 @@
             @include('layouts.footers.guest')
         @endguest
 
-        <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
-        <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js" type="application/javascript"></script>
+        <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js" type="application/javascript"></script>
         
         @stack('js')
         
         <!-- Argon JS -->
-        <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
+        <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0" type="application/javascript"></script>
         </div>
     </body>
 </html>
