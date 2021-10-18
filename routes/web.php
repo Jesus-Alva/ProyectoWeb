@@ -42,5 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
 	Route::get('libros', [librosController::class, 'index'])->name('r.libros');
+	Route::post('api/guardar_libro', [librosController::class, 'guardar']);
+	Route::get('api/libros', [librosController::class, 'listar']);
+
 });
 
