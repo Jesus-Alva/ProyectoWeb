@@ -2316,17 +2316,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setup: function setup() {},
+  mounted: function mounted() {
+    this.listar_libros();
+  },
   data: function data() {
     return {
       nuevoLibro: {},
       errores: '',
-      lista_libros: {}
+      lista_libros: {},
+      lista_categorias: {},
+      lista_eliminar: {},
+      libro_eliminar: {}
     };
   },
   methods: {
     fnNuevoLibro: function fnNuevoLibro() {
+      this.nuevoLibro = {};
+      this.listar_categorias();
       $("#modalNuevoLibro").modal("toggle");
     },
     listar_libros: function listar_libros() {
@@ -2353,7 +2398,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    guardar: function guardar() {
+    listar_categorias: function listar_categorias() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -2362,24 +2407,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.post("api/guardar_libro", _this2.nuevoLibro).then(function (respuesta) {
-                  console.log(respuesta);
-                  $('#modalNuevoLibro').modal('toggle'); //se esconde el formulario
-
-                  //se esconde el formulario
-                  _this2.nuevoLibro = {}; //se limpia el formulario
-
-                  //se limpia el formulario
-                  _this2.errores = " ";
+                return axios.get("api/categorias").then(function (respuesta) {
+                  console.log(respuesta.data.message);
+                  _this2.lista_categorias = respuesta.data;
                 })["catch"](function (error) {
-                  console.log(error.response.data.message);
-
-                  if (error.response.data != null) {
-                    var llaves = Object.keys(error.response.data.errors);
-                    _this2.errores = error.response.data.errors[llaves[0]][0];
-                  } else {
-                    _this2.errores = error.response.message;
-                  }
+                  console.log(error.response.data);
                 });
 
               case 2:
@@ -2388,6 +2420,84 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee2);
+      }))();
+    },
+    guardar: function guardar() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.post("api/guardar_libro", _this3.nuevoLibro).then(function (respuesta) {
+                  console.log(respuesta);
+                  $('#modalNuevoLibro').modal('toggle'); //se esconde el formulario
+
+                  //se esconde el formulario
+                  _this3.nuevoLibro = {}; //se limpia el formulario
+
+                  //se limpia el formulario
+                  _this3.errores = " ";
+
+                  _this3.listar_libros();
+                })["catch"](function (error) {
+                  console.log(error.response.data.message);
+
+                  if (error.response.data != null) {
+                    var llaves = Object.keys(error.response.data.errors);
+                    _this3.errores = error.response.data.errors[llaves[0]][0];
+                  } else {
+                    _this3.errores = error.response.message;
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    fnEditarLibro: function fnEditarLibro(libro) {
+      this.nuevoLibro = libro;
+      this.listar_categorias();
+      $("#modalNuevoLibro").modal("toggle");
+    },
+    fnMostrarModalEliminarLibro: function fnMostrarModalEliminarLibro(libro) {
+      this.libro_eliminar = libro;
+      $("#modal-eliminar").modal("toggle");
+    },
+    fnEliminarLibro: function fnEliminarLibro(libro) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios.post("api/eliminar_libro", _this4.libro_eliminar).then(function (respuesta) {
+                  console.log(respuesta);
+                  $('#modal-eliminar').modal('toggle'); //se esconde el formulario
+
+                  //se esconde el formulario
+                  _this4.libro_eliminar = {}; //se limpia el formulario
+
+                  //se limpia el formulario
+                  _this4.listar_libros();
+                })["catch"](function (error) {
+                  console.log(error.response.data.message);
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   }
@@ -38956,7 +39066,72 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(2, true)
+                      _c("td", { staticClass: "budget" }, [
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(libro.nombre_autor) +
+                            " "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-right" }, [
+                        _c("div", { staticClass: "dropdown" }, [
+                          _vm._m(2, true),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "dropdown-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.fnEditarLibro(libro)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._m(3, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "btn-inner--text" },
+                                    [_vm._v("Editar")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "dropdown-iten",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.fnMostrarModalEliminarLibro(
+                                        libro
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._m(4, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "btn-inner--text" },
+                                    [_vm._v("Eliminar")]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ])
                     ])
                   })
                 ],
@@ -38989,7 +39164,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _vm._m(5),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", [
@@ -39061,34 +39236,57 @@ var render = function() {
                         _vm._v(" "),
                         _c("label", [_vm._v("Categoria")]),
                         _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.nuevoLibro.categoria,
-                              expression: "nuevoLibro.categoria"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "text",
-                            placeholder: "Ej. Terror, Novela..."
-                          },
-                          domProps: { value: _vm.nuevoLibro.categoria },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.nuevoLibro.id_categoria,
+                                expression: "nuevoLibro.id_categoria"
                               }
-                              _vm.$set(
-                                _vm.nuevoLibro,
-                                "categoria",
-                                $event.target.value
-                              )
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.nuevoLibro,
+                                  "id_categoria",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
                             }
-                          }
-                        })
+                          },
+                          _vm._l(_vm.lista_categorias, function(categoria) {
+                            return _c(
+                              "option",
+                              {
+                                key: categoria.id,
+                                staticClass: "form-control",
+                                domProps: { value: categoria.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(categoria.nombre) +
+                                    "\n                                        "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
                       ])
                     ]),
                     _vm._v(" "),
@@ -39134,13 +39332,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nuevoLibro.paginas,
-                              expression: "nuevoLibro.paginas"
+                              value: _vm.nuevoLibro.no_paginas,
+                              expression: "nuevoLibro.no_paginas"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", placeholder: "Paginas" },
-                          domProps: { value: _vm.nuevoLibro.paginas },
+                          domProps: { value: _vm.nuevoLibro.no_paginas },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -39148,7 +39346,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.nuevoLibro,
-                                "paginas",
+                                "no_paginas",
                                 $event.target.value
                               )
                             }
@@ -39196,13 +39394,13 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nuevoLibro.desc,
-                              expression: "nuevoLibro.desc"
+                              value: _vm.nuevoLibro.descripcion,
+                              expression: "nuevoLibro.descripcion"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: { type: "text", placeholder: "Descripcion" },
-                          domProps: { value: _vm.nuevoLibro.desc },
+                          domProps: { value: _vm.nuevoLibro.descripcion },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
@@ -39210,7 +39408,7 @@ var render = function() {
                               }
                               _vm.$set(
                                 _vm.nuevoLibro,
-                                "desc",
+                                "descripcion",
                                 $event.target.value
                               )
                             }
@@ -39230,7 +39428,7 @@ var render = function() {
                               attrs: { role: "alert" }
                             },
                             [
-                              _vm._m(4),
+                              _vm._m(6),
                               _vm._v(" "),
                               _c("span", { staticClass: "alert-inner--text" }, [
                                 _c("strong", [_vm._v("ERROR!")]),
@@ -39280,7 +39478,81 @@ var render = function() {
           ]
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-4" }, [
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "modal-eliminar",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "modal-notification",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "modal-dialog modal-danger modal-dialog-centered modal-",
+              attrs: { role: "document" }
+            },
+            [
+              _c("div", { staticClass: "modal-content bg-gradient-danger" }, [
+                _vm._m(7),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "py-3 text-center" }, [
+                    _c("i", { staticClass: "ni ni-bell-55 ni-3x" }),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "heading mt-4" }, [
+                      _vm._v("¿Realmente desea eliminar el libro?")
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("ISBN: " + _vm._s(_vm.libro_eliminar.isbn))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v("Nombre: " + _vm._s(_vm.libro_eliminar.nombre))
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-whit",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fnEliminarLibro()
+                        }
+                      }
+                    },
+                    [_vm._v("Eliminar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-link text-white ml-auto",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ])
+            ]
+          )
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -39394,6 +39666,15 @@ var staticRenderFns = [
             attrs: { scope: "col", "data-sort": "satatus" }
           },
           [_vm._v("Categoria")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "sort",
+            attrs: { scope: "col", "data-sort": "satatus" }
+          },
+          [_vm._v("Autor")]
         )
       ])
     ])
@@ -39402,49 +39683,35 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-right" }, [
-      _c("div", { staticClass: "dropdown" }, [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-sm btn-icon-only text-light",
-            attrs: {
-              href: "#",
-              role: "button",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [_c("i", { staticClass: "fas fa-ellipsis-v" })]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu dropdown-menu-right dropdown-menu-arrow"
-          },
-          [
-            _c("button", { staticClass: "dropdown-item" }, [
-              _c("span", { staticClass: "btn-inner--icon" }, [
-                _c("i", { staticClass: "ni ni-collection" })
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "btn-inner--text" }, [_vm._v("Editar")])
-            ]),
-            _vm._v(" "),
-            _c("button", { staticClass: "dropdown-iten" }, [
-              _c("span", { staticClass: "btn-inner--icon" }, [
-                _c("i", { staticClass: "ni ni-fat-remove" })
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "btn-inner--text" }, [
-                _vm._v("Eliminar")
-              ])
-            ])
-          ]
-        )
-      ])
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-sm btn-icon-only text-light",
+        attrs: {
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-ellipsis-v" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "btn-inner--icon" }, [
+      _c("i", { staticClass: "ni ni-collection" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "btn-inner--icon" }, [
+      _c("i", { staticClass: "ni ni-fat-remove" })
     ])
   },
   function() {
@@ -39478,6 +39745,34 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "alert-inner--icon" }, [
       _c("i", { staticClass: "ni ni-like-2" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h6",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "modal-title-notification" }
+        },
+        [_vm._v("Eliminar")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]

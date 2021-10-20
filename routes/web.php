@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\categoriasController;
 use App\Http\Controllers\librosController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('libros', [librosController::class, 'index'])->name('r.libros');
 	Route::post('api/guardar_libro', [librosController::class, 'guardar']);
 	Route::get('api/libros', [librosController::class, 'listar']);
+	Route::post('api/eliminar_libro', [librosController::class, 'eliminar']);
+
+	Route::get('api/categorias', [categoriasController::class, 'listar']);
+	
 
 });
 

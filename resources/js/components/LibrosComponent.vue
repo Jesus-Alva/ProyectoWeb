@@ -53,7 +53,7 @@
                                         <th scope="col" class="sort" data-sort="satatus">Nombre</th>
                                         <th scope="col" class="sort" data-sort="satatus">Descripcion</th>
                                         <th scope="col" class="sort" data-sort="satatus">Categoria</th>
-                                        <!--<th scope="col" class="sort" data-sort="satatus">Autor</th>-->
+                                        <th scope="col" class="sort" data-sort="satatus">Autor</th>
                                     </tr>
                                 </thead>
 
@@ -91,9 +91,9 @@
                                     <td class="budget">
                                         {{ libro.nombre_cat }}
                                     </td>
-                                    <!--<td class="budget">
-                                        {{ libro.id_autor }} interpolacion 
-                                    </td>-->
+                                    <td class="budget">
+                                        {{ libro.nombre_autor }} <!-- interpolacion --> 
+                                    </td>
 
                                     <td class="text-right">
                                         <div class="dropdown">
@@ -101,11 +101,11 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                <button class="dropdown-item">
+                                                <button class="dropdown-item" @click="fnEditarLibro(libro)">
                                                     <span class="btn-inner--icon"><i class="ni ni-collection"></i></span>
-                                                    <span class="btn-inner--text">Editar</span>
+                                                    <span class="btn-inner--text" >Editar</span>
                                                 </button>
-                                                <button class="dropdown-iten">
+                                                <button class="dropdown-iten" @click="fnMostrarModalEliminarLibro(libro)" >
                                                     <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
                                                     <span class="btn-inner--text">Eliminar</span>
                                                 </button>
@@ -147,9 +147,11 @@
                                         <input type="text" class="form-control" v-model="nuevoLibro.anio" placeholder="Año"/>
                                         <br>
                                         <label>Categoria</label>
-                                        <input type="text" class="form-control" v-model="nuevoLibro.categoria" placeholder="Ej. Terror, Novela..."/>
-                                        
-                                        
+                                        <select class="form-control" v-model="nuevoLibro.id_categoria">
+                                            <option class="form-control" v-for="categoria in lista_categorias" :key="categoria.id" v-bind:value="categoria.id">
+                                                {{ categoria.nombre }}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -158,7 +160,7 @@
                                         <input type="text" class="form-control" v-model="nuevoLibro.nombre" placeholder="Nombre del Libro"/>
                                         <br>
                                         <label>No. de Paginas</label>
-                                        <input type="text" class="form-control" v-model="nuevoLibro.paginas" placeholder="Paginas"/>
+                                        <input type="text" class="form-control" v-model="nuevoLibro.no_paginas" placeholder="Paginas"/>
                                         <br>
                                         <label>Autor del libro</label>
                                         <input type="text" class="form-control" v-model="nuevoLibro.autor" placeholder="Autor"/>
@@ -167,7 +169,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Descripcion del libro</label>
-                                        <textarea type="text" class="form-control" v-model="nuevoLibro.desc" placeholder="Descripcion"/>
+                                        <textarea type="text" class="form-control" v-model="nuevoLibro.descripcion" placeholder="Descripcion"/>
                                         <br>
                                     </div>
                                 </div>
@@ -192,24 +194,66 @@
                 </div>
             </div>
         </div>
+        <!--END MODAL -->
+        <!--Modal Eliminar libro-->
+        <div class="col-md-4">
+            <div class="modal fade" id="modal-eliminar" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                    <div class="modal-content bg-gradient-danger">
+        	
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="modal-title-notification">Eliminar</h6>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+            
+                        <div class="modal-body">
+            	
+                            <div class="py-3 text-center">
+                                <i class="ni ni-bell-55 ni-3x"></i>
+                                <h4 class="heading mt-4">¿Realmente desea eliminar el libro?</h4>
+                                <p>ISBN: {{ libro_eliminar.isbn }}</p>
+                                <p>Nombre: {{ libro_eliminar.nombre }}</p>
+                            </div>
+                
+                        </div>
+            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-whit" @click="fnEliminarLibro()">Eliminar</button>
+                            <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Cancelar</button> 
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
 <script>
 export default {
     setup() {},
+    mounted(){
+        this.listar_libros()
+    },
     data(){
         return{
             nuevoLibro: {},
             errores: '',
-            lista_libros: {}
+            lista_libros: {},
+            lista_categorias: {},
+            lista_eliminar: {},
+            libro_eliminar: {}
         }
     },
     methods: {
         fnNuevoLibro() {
+            this.nuevoLibro = {};
+            this.listar_categorias();
             $("#modalNuevoLibro").modal("toggle");
         },
-
         async listar_libros(){
 
             await axios.get("api/libros")
@@ -224,16 +268,28 @@ export default {
 
                 })
         },
+        async listar_categorias(){
+
+            await axios.get("api/categorias")
+                .then((respuesta) => {
+                    console.log(respuesta.data.message)
+                    this.lista_categorias = respuesta.data
+                })
+                .catch((error) => {
+                    
+                    console.log(error.response.data)
+
+                })
+        },
 
         async guardar(){
             await axios.post("api/guardar_libro", this.nuevoLibro)
                 .then((respuesta) => {
                     console.log(respuesta)
                     $('#modalNuevoLibro').modal('toggle');//se esconde el formulario
-
-                    this.nuevoLibro = {};//se limpia el formulario
-
-                    this.errores = " ";
+                    this.nuevoLibro = {}//se limpia el formulario
+                    this.errores = " "
+                    this.listar_libros()
                 })
                 .catch((error) => {
                     
@@ -246,6 +302,29 @@ export default {
                     }else{
                         this.errores = error.response.message
                     }
+
+                })
+        },
+        fnEditarLibro(libro){
+            this.nuevoLibro = libro
+            this.listar_categorias()
+            $("#modalNuevoLibro").modal("toggle")
+        },
+        fnMostrarModalEliminarLibro(libro){
+            this.libro_eliminar = libro
+            $("#modal-eliminar").modal("toggle")
+        },
+        async fnEliminarLibro(libro){
+            await axios.post("api/eliminar_libro", this.libro_eliminar)
+                .then((respuesta) => {
+                    console.log(respuesta)
+                    $('#modal-eliminar').modal('toggle');//se esconde el formulario
+                    this.libro_eliminar = {}//se limpia el formulario
+                    this.listar_libros()
+                })
+                .catch((error) => {
+                    
+                    console.log(error.response.data.message)
 
                 })
         }

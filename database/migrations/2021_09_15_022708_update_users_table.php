@@ -18,6 +18,7 @@ class UpdateUsersTable extends Migration
             $table->bigInteger('id_tipo_usuario')->nullable();
 
             $table->foreign('id_tipo_usuario')->references('id')->on('tipousuario');
+
         });
     }
 
@@ -32,6 +33,7 @@ class UpdateUsersTable extends Migration
             $table->dropForeign(['id_tipo_usuario']);
 
             $table->dropForeign('id_tipo_usuario');
+
         });
     }
 }

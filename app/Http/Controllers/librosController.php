@@ -16,7 +16,8 @@ class librosController extends Controller
 
                 $libros = DB::table('Libros')
                 ->join("categorias","categorias.id","=","libros.id_categoria")
-                ->select('libros.*', 'categorias.nombre as nombre_cat')
+                ->join("autor","autor.id","=","libros.id_autor")
+                ->select('libros.*', 'categorias.nombre as nombre_cat','autor.nombre as nombre_autor')
                 ->get();
 
         return $libros;
@@ -27,9 +28,8 @@ class librosController extends Controller
         $reglas = [
             'isbn' => 'required',
             'nombre' => 'required|min:3',
-            'anio' => 'required|numeric|min:4',
-            'paginas' => 'required|numeric',
-            'categoria' => 'required',
+            'anio' => 'required|numeric|min:1900',
+            'no_paginas' => 'required|numeric|min:100',
             'autor' => 'required'
         ];
 
@@ -39,25 +39,37 @@ class librosController extends Controller
             'nombre.min' => "El campo requiere por lo minimo 3 caracteres.",
             'anio.required' => "El campo año no puede estar vacio.",
             'anio.numeric' => "Solo se permiten numero para el año.",
-            'anio.min' => "El campo AÑO requiere por lo minimo 4 caracteres.",
-            'paginas.numeric' => "Solo se permiten numeros en las paginas.",
-            'categoria.required' => "El campo categoria es un valor requerido.",
+            'anio.min' => "El campo AÑO requiere un dato mas reciente.",
+            'no_paginas.required' => "Ingresa un numero de paginas.",
+            'no_paginas.numeric' => "Solo se permiten numeros en las paginas.",
+            'no_paginas.min' => "Solo se permiten 3 o mas caracteres en las paginas",
+            //'categoria.required' => "El campo categoria es un valor requerido.",
             'autor.required' => "El campo autor es un valor requerido."
             
         ];
 
         $this->validate($request, $reglas, $mensajes);
-
-        $libro = new Libros();
+        
+        
+        if($request -> id == null || $request -> id == 0){
+            $libro = new Libros();
+        }else{
+            $libro = Libros::find($request->id);
+        }
 
         $libro -> isbn = $request->isbn;
         $libro -> anio = $request->anio;
-        $libro -> no_paginas = $request -> paginas;
+        $libro -> no_paginas = $request->no_paginas;
         $libro -> nombre = $request->nombre;
-        $libro -> descripcion = $request->desc;
-        $libro -> id_categoria = 1;
+        $libro -> descripcion = $request->descripcion;
+        $libro -> id_categoria = $request->id_categoria;
         $libro -> id_autor = 1;
 
         $libro -> save();
+    }
+
+    function eliminar (Request $request){
+        $libro = Libros::find($request->id);
+        $libro -> delete();
     }
 }
