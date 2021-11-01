@@ -83,7 +83,7 @@
                                     <div class="custom-control custom-control-alternative custom-checkbox">
                                         <input class="custom-control-input" id="customCheckRegister" type="checkbox">
                                         <label class="custom-control-label" for="customCheckRegister">
-                                            <span class="text-muted">{{ __('I agree with the') }} <a href="#!">{{ __('Privacy Policy') }}</a></span>
+                                            <span class="text-muted">{{ __('I agree with the') }} <a href="{{ route('m.aviso') }}">{{ __('Privacy Policy') }}</a></span>
                                         </label>
                                     </div>
                                 </div>

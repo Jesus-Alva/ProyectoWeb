@@ -101,14 +101,19 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                                
                                                 <button class="dropdown-item" @click="fnEditarLibro(libro)">
                                                     <span class="btn-inner--icon"><i class="ni ni-collection"></i></span>
+                                                    <span class="btn-inner--text" >Detalles</span>
+                                                </button>
+                                                <button class="dropdown-item" @click="fnEditarLibro(libro)">
+                                                    <span class="btn-inner--icon"><i class="ni ni-ruler-pencil"></i></span>
                                                     <span class="btn-inner--text" >Editar</span>
                                                 </button>
                                                 <button class="dropdown-iten" @click="fnMostrarModalEliminarLibro(libro)" >
                                                     <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
                                                     <span class="btn-inner--text">Eliminar</span>
-                                                </button>
+                                                </button><br>
                                             </div>
                                         </div>
                                     </td>
@@ -139,6 +144,16 @@
                         <form>
                             <div class="row">
                                 <div class="col-md-6">
+                                    <img :src="'/storage/' + nuevoLibro.imagen_libro" width="120px">
+                                    <br>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="file" @change="obtenerImagen">
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>ISBN del  Libro</label>
                                         <input type="text" class="form-control" v-model="nuevoLibro.isbn" placeholder="Codigo del Libro"/>
@@ -147,11 +162,13 @@
                                         <input type="text" class="form-control" v-model="nuevoLibro.anio" placeholder="Año"/>
                                         <br>
                                         <label>Categoria</label>
-                                        <select class="form-control" v-model="nuevoLibro.id_categoria">
-                                            <option class="form-control" v-for="categoria in lista_categorias" :key="categoria.id" v-bind:value="categoria.id">
+                                        <select class="form-control" v-model="nuevoLibro.id_categoria" id="cbxcategorias">
+                                            <option class="form-control" v-for="categoria in lista_categorias" :key="categoria.id" v-bind:value="categoria.nombre">
                                                 {{ categoria.nombre }}
                                             </option>
+                                            <!--<option value="0">Nuevo autor</option>-->
                                         </select>
+                                        <input type="text" class="form-control" placeholder="Nombre del autor">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -162,8 +179,14 @@
                                         <label>No. de Paginas</label>
                                         <input type="text" class="form-control" v-model="nuevoLibro.no_paginas" placeholder="Paginas"/>
                                         <br>
+
                                         <label>Autor del libro</label>
-                                        <input type="text" class="form-control" v-model="nuevoLibro.autor" placeholder="Autor"/>
+                                        <select class="form-control" v-model="nuevoLibro.id_autor">
+                                            <option class="form-control" v-for="autor in lista_autores" :key="autor.id" v-bind:value="autor.id">
+                                                {{ autor.nombre }}
+                                            </option>
+                                            
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -213,8 +236,9 @@
                             <div class="py-3 text-center">
                                 <i class="ni ni-bell-55 ni-3x"></i>
                                 <h4 class="heading mt-4">¿Realmente desea eliminar el libro?</h4>
-                                <p>ISBN: {{ libro_eliminar.isbn }}</p>
                                 <p>Nombre: {{ libro_eliminar.nombre }}</p>
+                                <center><img :src="'/storage/' + libro_eliminar.imagen_libro" width="120px"></center>
+                                <p>ISBN: {{ libro_eliminar.isbn }}</p> 
                             </div>
                 
                         </div>
@@ -244,14 +268,22 @@ export default {
             errores: '',
             lista_libros: {},
             lista_categorias: {},
+            lista_autores: {},
             lista_eliminar: {},
-            libro_eliminar: {}
+            libro_eliminar: {},
+            imagen_libro: '',
         }
     },
     methods: {
+        obtenerImagen(e){
+            this.imagen_libro = e.target.files[0];
+        },
+
         fnNuevoLibro() {
             this.nuevoLibro = {};
+            this.imagen_libro = '';
             this.listar_categorias();
+            this.listar_autores();
             $("#modalNuevoLibro").modal("toggle");
         },
         async listar_libros(){
@@ -264,7 +296,7 @@ export default {
                 })
                 .catch((error) => {
                     
-                    console.log(error.response.data.errors)
+                    console.log(error.response.data)
 
                 })
         },
@@ -281,9 +313,34 @@ export default {
 
                 })
         },
+        async listar_autores(){
+
+            await axios.get("api/autores")
+                .then((respuesta) => {
+                    console.log(respuesta.data.message)
+                    this.lista_autores = respuesta.data
+                })
+                .catch((error) => {
+                    
+                    console.log(error.response.data.message)
+
+                })
+        },
 
         async guardar(){
-            await axios.post("api/guardar_libro", this.nuevoLibro)
+
+            const datos_libro = new FormData
+
+            datos_libro.set('id', this.nuevoLibro.id);
+            datos_libro.set('anio', this.nuevoLibro.anio);
+            datos_libro.set('isbn', this.nuevoLibro.isbn);
+            datos_libro.set('no_paginas', this.nuevoLibro.no_paginas);
+            datos_libro.set('nombre', this.nuevoLibro.nombre);
+            datos_libro.set('descripcion', this.nuevoLibro.descripcion);
+            datos_libro.set('id_categoria', this.nuevoLibro.id_categoria);
+            datos_libro.set('imagen_libro', this.imagen_libro);
+
+            await axios.post("api/guardar_libro", datos_libro)
                 .then((respuesta) => {
                     console.log(respuesta)
                     $('#modalNuevoLibro').modal('toggle');//se esconde el formulario
@@ -296,7 +353,7 @@ export default {
                     console.log(error.response.data.message)
 
                     if(error.response.data != null){
-                        var llaves= Object.keys(error.response.data.errors)
+                        var llaves= Object.keys(error.response.data)
 
                         this.errores = error.response.data.errors[llaves[0]][0]
                     }else{
@@ -327,6 +384,16 @@ export default {
                     console.log(error.response.data.message)
 
                 })
+        },
+
+        fnObtenerValor(){
+            let cbxcategorias = document.getElementById('cbxcategorias').value;
+            console.log(cbxcategorias);
+            if(cbxcategorias == 0){
+                console.log('Se muestra un nuevo mimput');
+            }else{
+
+            }
         }
     }
 };

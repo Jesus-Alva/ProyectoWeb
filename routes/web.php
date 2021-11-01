@@ -27,6 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //Auth::routes();
 
 //Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/aviso_privacidad', function(){return "aviso";})->name('m.aviso');
 
 
 Route::get('table-list', function () {return view('pages.tables');})
@@ -42,12 +43,15 @@ Route::group(['middleware' => 'auth'], function () {
 	 Route::get('icons', function () {return view('pages.icons');})->name('icons'); 
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
-	Route::get('libros', [librosController::class, 'index'])->name('r.libros');
+	Route::get('libros', [librosController::class, 'index'])
+	->middleware('verificarRol')
+	->name('r.libros');
 	Route::post('api/guardar_libro', [librosController::class, 'guardar']);
 	Route::get('api/libros', [librosController::class, 'listar']);
 	Route::post('api/eliminar_libro', [librosController::class, 'eliminar']);
 
 	Route::get('api/categorias', [categoriasController::class, 'listar']);
+	Route::get('api/autores', [autores_controller::class, 'listar']);
 	
 
 });

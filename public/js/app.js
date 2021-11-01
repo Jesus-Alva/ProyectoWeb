@@ -2353,6 +2353,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setup: function setup() {},
   mounted: function mounted() {
@@ -2364,14 +2388,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errores: '',
       lista_libros: {},
       lista_categorias: {},
+      lista_autores: {},
       lista_eliminar: {},
-      libro_eliminar: {}
+      libro_eliminar: {},
+      imagen_libro: ''
     };
   },
   methods: {
+    obtenerImagen: function obtenerImagen(e) {
+      this.imagen_libro = e.target.files[0];
+    },
     fnNuevoLibro: function fnNuevoLibro() {
       this.nuevoLibro = {};
+      this.imagen_libro = '';
       this.listar_categorias();
+      this.listar_autores();
       $("#modalNuevoLibro").modal("toggle");
     },
     listar_libros: function listar_libros() {
@@ -2387,7 +2418,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.lista_libros = respuesta.data;
                   console.log(_this.lista_libros);
                 })["catch"](function (error) {
-                  console.log(error.response.data.errors);
+                  console.log(error.response.data);
                 });
 
               case 2:
@@ -2422,7 +2453,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    guardar: function guardar() {
+    listar_autores: function listar_autores() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -2431,26 +2462,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios.post("api/guardar_libro", _this3.nuevoLibro).then(function (respuesta) {
-                  console.log(respuesta);
-                  $('#modalNuevoLibro').modal('toggle'); //se esconde el formulario
-
-                  //se esconde el formulario
-                  _this3.nuevoLibro = {}; //se limpia el formulario
-
-                  //se limpia el formulario
-                  _this3.errores = " ";
-
-                  _this3.listar_libros();
+                return axios.get("api/autores").then(function (respuesta) {
+                  console.log(respuesta.data.message);
+                  _this3.lista_autores = respuesta.data;
                 })["catch"](function (error) {
                   console.log(error.response.data.message);
-
-                  if (error.response.data != null) {
-                    var llaves = Object.keys(error.response.data.errors);
-                    _this3.errores = error.response.data.errors[llaves[0]][0];
-                  } else {
-                    _this3.errores = error.response.message;
-                  }
                 });
 
               case 2:
@@ -2459,6 +2475,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee3);
+      }))();
+    },
+    guardar: function guardar() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var datos_libro;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                datos_libro = new FormData();
+                datos_libro.set('id', _this4.nuevoLibro.id);
+                datos_libro.set('anio', _this4.nuevoLibro.anio);
+                datos_libro.set('isbn', _this4.nuevoLibro.isbn);
+                datos_libro.set('no_paginas', _this4.nuevoLibro.no_paginas);
+                datos_libro.set('nombre', _this4.nuevoLibro.nombre);
+                datos_libro.set('descripcion', _this4.nuevoLibro.descripcion);
+                datos_libro.set('id_categoria', _this4.nuevoLibro.id_categoria);
+                datos_libro.set('imagen_libro', _this4.imagen_libro);
+                _context4.next = 11;
+                return axios.post("api/guardar_libro", datos_libro).then(function (respuesta) {
+                  console.log(respuesta);
+                  $('#modalNuevoLibro').modal('toggle'); //se esconde el formulario
+
+                  //se esconde el formulario
+                  _this4.nuevoLibro = {}; //se limpia el formulario
+
+                  //se limpia el formulario
+                  _this4.errores = " ";
+
+                  _this4.listar_libros();
+                })["catch"](function (error) {
+                  console.log(error.response.data.message);
+
+                  if (error.response.data != null) {
+                    var llaves = Object.keys(error.response.data);
+                    _this4.errores = error.response.data.errors[llaves[0]][0];
+                  } else {
+                    _this4.errores = error.response.message;
+                  }
+                });
+
+              case 11:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     },
     fnEditarLibro: function fnEditarLibro(libro) {
@@ -2471,34 +2536,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       $("#modal-eliminar").modal("toggle");
     },
     fnEliminarLibro: function fnEliminarLibro(libro) {
-      var _this4 = this;
+      var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
-                return axios.post("api/eliminar_libro", _this4.libro_eliminar).then(function (respuesta) {
+                _context5.next = 2;
+                return axios.post("api/eliminar_libro", _this5.libro_eliminar).then(function (respuesta) {
                   console.log(respuesta);
                   $('#modal-eliminar').modal('toggle'); //se esconde el formulario
 
                   //se esconde el formulario
-                  _this4.libro_eliminar = {}; //se limpia el formulario
+                  _this5.libro_eliminar = {}; //se limpia el formulario
 
                   //se limpia el formulario
-                  _this4.listar_libros();
+                  _this5.listar_libros();
                 })["catch"](function (error) {
                   console.log(error.response.data.message);
                 });
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
+    },
+    fnObtenerValor: function fnObtenerValor() {
+      var cbxcategorias = document.getElementById('cbxcategorias').value;
+      console.log(cbxcategorias);
+
+      if (cbxcategorias == 0) {
+        console.log('Se muestra un nuevo mimput');
+      } else {}
     }
   }
 });
@@ -39101,6 +39174,27 @@ var render = function() {
                                   _c(
                                     "span",
                                     { staticClass: "btn-inner--text" },
+                                    [_vm._v("Detalles")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "dropdown-item",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.fnEditarLibro(libro)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._m(4, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "btn-inner--text" },
                                     [_vm._v("Editar")]
                                   )
                                 ]
@@ -39119,7 +39213,7 @@ var render = function() {
                                   }
                                 },
                                 [
-                                  _vm._m(4, true),
+                                  _vm._m(5, true),
                                   _vm._v(" "),
                                   _c(
                                     "span",
@@ -39127,7 +39221,8 @@ var render = function() {
                                     [_vm._v("Eliminar")]
                                   )
                                 ]
-                              )
+                              ),
+                              _c("br")
                             ]
                           )
                         ])
@@ -39164,10 +39259,32 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
+              _vm._m(6),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("img", {
+                        attrs: {
+                          src: "/storage/" + _vm.nuevoLibro.imagen_libro,
+                          width: "120px"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("br")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("input", {
+                        attrs: { type: "file" },
+                        on: { change: _vm.obtenerImagen }
+                      }),
+                      _vm._v(" "),
+                      _c("br")
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-6" }, [
                       _c("div", { staticClass: "form-group" }, [
@@ -39248,6 +39365,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
+                            attrs: { id: "cbxcategorias" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -39274,7 +39392,7 @@ var render = function() {
                               {
                                 key: categoria.id,
                                 staticClass: "form-control",
-                                domProps: { value: categoria.id }
+                                domProps: { value: categoria.nombre }
                               },
                               [
                                 _vm._v(
@@ -39286,7 +39404,15 @@ var render = function() {
                             )
                           }),
                           0
-                        )
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Nombre del autor"
+                          }
+                        })
                       ])
                     ]),
                     _vm._v(" "),
@@ -39357,31 +39483,57 @@ var render = function() {
                         _vm._v(" "),
                         _c("label", [_vm._v("Autor del libro")]),
                         _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.nuevoLibro.autor,
-                              expression: "nuevoLibro.autor"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Autor" },
-                          domProps: { value: _vm.nuevoLibro.autor },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.nuevoLibro.id_autor,
+                                expression: "nuevoLibro.id_autor"
                               }
-                              _vm.$set(
-                                _vm.nuevoLibro,
-                                "autor",
-                                $event.target.value
-                              )
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.nuevoLibro,
+                                  "id_autor",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
                             }
-                          }
-                        })
+                          },
+                          _vm._l(_vm.lista_autores, function(autor) {
+                            return _c(
+                              "option",
+                              {
+                                key: autor.id,
+                                staticClass: "form-control",
+                                domProps: { value: autor.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            " +
+                                    _vm._s(autor.nombre) +
+                                    "\n                                        "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
                       ])
                     ]),
                     _vm._v(" "),
@@ -39428,7 +39580,7 @@ var render = function() {
                               attrs: { role: "alert" }
                             },
                             [
-                              _vm._m(6),
+                              _vm._m(7),
                               _vm._v(" "),
                               _c("span", { staticClass: "alert-inner--text" }, [
                                 _c("strong", [_vm._v("ERROR!")]),
@@ -39503,24 +39655,38 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "modal-content bg-gradient-danger" }, [
-                _vm._m(7),
+                _vm._m(8),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
-                  _c("div", { staticClass: "py-3 text-center" }, [
-                    _c("i", { staticClass: "ni ni-bell-55 ni-3x" }),
-                    _vm._v(" "),
-                    _c("h4", { staticClass: "heading mt-4" }, [
-                      _vm._v("¿Realmente desea eliminar el libro?")
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("ISBN: " + _vm._s(_vm.libro_eliminar.isbn))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v("Nombre: " + _vm._s(_vm.libro_eliminar.nombre))
-                    ])
-                  ])
+                  _c(
+                    "div",
+                    { staticClass: "py-3 text-center" },
+                    [
+                      _c("i", { staticClass: "ni ni-bell-55 ni-3x" }),
+                      _vm._v(" "),
+                      _c("h4", { staticClass: "heading mt-4" }, [
+                        _vm._v("¿Realmente desea eliminar el libro?")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v("Nombre: " + _vm._s(_vm.libro_eliminar.nombre))
+                      ]),
+                      _vm._v(" "),
+                      _c("center", [
+                        _c("img", {
+                          attrs: {
+                            src: "/storage/" + _vm.libro_eliminar.imagen_libro,
+                            width: "120px"
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v("ISBN: " + _vm._s(_vm.libro_eliminar.isbn))
+                      ])
+                    ],
+                    1
+                  )
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-footer" }, [
@@ -39704,6 +39870,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "btn-inner--icon" }, [
       _c("i", { staticClass: "ni ni-collection" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "btn-inner--icon" }, [
+      _c("i", { staticClass: "ni ni-ruler-pencil" })
     ])
   },
   function() {

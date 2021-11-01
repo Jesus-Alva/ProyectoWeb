@@ -30,7 +30,7 @@ class librosController extends Controller
             'nombre' => 'required|min:3',
             'anio' => 'required|numeric|min:1900',
             'no_paginas' => 'required|numeric|min:100',
-            'autor' => 'required'
+            //'autor' => 'required'
         ];
 
         $mensajes = [
@@ -44,7 +44,7 @@ class librosController extends Controller
             'no_paginas.numeric' => "Solo se permiten numeros en las paginas.",
             'no_paginas.min' => "Solo se permiten 3 o mas caracteres en las paginas",
             //'categoria.required' => "El campo categoria es un valor requerido.",
-            'autor.required' => "El campo autor es un valor requerido."
+            //'autor.required' => "El campo autor es un valor requerido."
             
         ];
 
@@ -63,7 +63,9 @@ class librosController extends Controller
         $libro -> nombre = $request->nombre;
         $libro -> descripcion = $request->descripcion;
         $libro -> id_categoria = $request->id_categoria;
-        $libro -> id_autor = 1;
+        $libro -> id_autor =  1 ;
+
+        $libro->imagen_libro = $request->file("imagen_libro")->store('imagenes','public');
 
         $libro -> save();
     }

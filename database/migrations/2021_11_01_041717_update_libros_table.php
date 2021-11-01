@@ -14,7 +14,7 @@ class UpdateLibrosTable extends Migration
     public function up()
     {
         Schema::table('libros', function (Blueprint $table) {
-            $table->string('isbn')->unique()->change();
+            $table->string('imagen_libro')->nullable();
             });
     }
 
@@ -25,6 +25,8 @@ class UpdateLibrosTable extends Migration
      */
     public function down()
     {
-        //
+        Schema :: table('libros', function(Blueprint $table){
+            $table->dropColumn('imagen_libro');
+        });
     }
 }

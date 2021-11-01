@@ -121,12 +121,17 @@
                       <span class="nav-link-text">Tables</span>
                     </a>
                 </li>
+
+                @can('es_admin', Auth()->user())
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('r.libros') }}">
-                      <i class="ni ni-bullet-list-67 text-default"></i>
+                      <i class="ni ni-book-bookmark text-default"></i>
                       <span class="nav-link-text">Libros</span>
                     </a>
                 </li>
+                @endcan
+
+                
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
