@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\autoresController;
 use App\Http\Controllers\categoriasController;
 use App\Http\Controllers\librosController;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
 	 Route::get('map', function () {return view('pages.maps');})->name('map');
 	 Route::get('icons', function () {return view('pages.icons');})->name('icons'); 
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
-
+	//CRUD de libros
 	Route::get('libros', [librosController::class, 'index'])
 	->middleware('verificarRol')
 	->name('r.libros');
@@ -50,9 +51,20 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('api/libros', [librosController::class, 'listar']);
 	Route::post('api/eliminar_libro', [librosController::class, 'eliminar']);
 
-	Route::get('api/categorias', [categoriasController::class, 'listar']);
-	Route::get('api/autores', [autores_controller::class, 'listar']);
+	Route::get('api/categorias', [categoriasController::class, 'listar'])->middleware('verificarRol');
+	Route::get('api/autores', [autores_controller::class, 'listar'])->middleware('verificarRol');
 	
+	//CRUD de categoria
+	Route::get('categorias', [categoriasController::class, 'index'])
+	->name('r.categorias')
+	->middleware('verificarRol');
+	Route::get('api/categorias', [categoriasController::class, 'listar'])->middleware('verificarRol');
+	Route::post('api/guardarCategoria', [categoriasController::class, 'guardar'])->middleware('verificarRol');
+	Route::post('api/eliminarCategoria', [categoriasController::class, 'eliminar'])->middleware('verificarRol');
 
+	Route::get('autores', [autoresController::class, 'index'])->name('r.autores')->middleware('verificarRol');
+	Route::get('api/autores', [autoresController::class, 'listar'])->middleware('verificarRol');
+	Route::post('api/guardarAutor', [autoresController::class, 'guardar'])->middleware('verificarRol');
+	Route::post('api/eliminarAutor', [autoresController::class, 'eliminar'])->middleware('verificarRol');
 });
 

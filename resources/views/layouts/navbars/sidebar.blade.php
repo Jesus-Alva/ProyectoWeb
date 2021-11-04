@@ -110,11 +110,11 @@
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
                     </a>
                 </li>
-                <li class="nav-item ">
+                <!--<li class="nav-item ">
                     <a class="nav-link" href="{{ route('map') }}">
                         <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
                     </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('table') }}">
                       <i class="ni ni-bullet-list-67 text-default"></i>
@@ -129,9 +129,21 @@
                       <span class="nav-link-text">Libros</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('r.categorias') }}">
+                      <i class="ni ni-bullet-list-67 text-default"></i>
+                      <span class="nav-link-text">Catgorias</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('r.autores') }}">
+                      <i class="ni ni-single-02 text-default"></i>
+                      <span class="nav-link-text">Autores</span>
+                    </a>
+                </li>
                 @endcan
 
-                
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
@@ -142,6 +154,7 @@
                         <i class="ni ni-cloud-download-95"></i> Upgrade to PRO
                     </a>
                 </li>
+                -->
             </ul>
             <!-- Divider -->
             <hr class="my-3">

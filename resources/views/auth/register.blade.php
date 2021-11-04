@@ -83,7 +83,7 @@
                                     <div class="custom-control custom-control-alternative custom-checkbox">
                                         <input class="custom-control-input" id="customCheckRegister" type="checkbox">
                                         <label class="custom-control-label" for="customCheckRegister">
-                                            <span class="text-muted">{{ __('I agree with the') }} <a href="{{ route('m.aviso') }}">{{ __('Privacy Policy') }}</a></span>
+                                            <span class="text-muted">{{ __('Estoy de acuerdo con las') }} <a href="#" data-toggle="modal" data-target="#modalPoliticas">{{ __('Politicas de Privacidad') }}</a></span>
                                         </label>
                                     </div>
                                 </div>
@@ -97,4 +97,55 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalPoliticas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLabel">Aviso de privacidad</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="text-align: justify;">
+                    Estamos conscientes de la importancia que tiene para usted saber cómo utilizamos sus datos personales y le agradecemos que confíe que lo haremos con cuidado y sensatez. 
+                    Este Aviso de Privacidad describe la forma en que Servicios de Librerías, recopilen y tratan sus datos personales a través de los sitios web, productos, servicios, tiendas en línea y aplicaciones que hacen referencia a este Aviso de Privacidad. 
+                    Al utilizar nuestros Servicios, usted está dando su consentimiento a las prácticas descritas en este Aviso de Privacidad.
+                    <br><br><h4>¿Qué datos Personales acerca de los Clientes recabamos?</h4>
+                    Recopilamos sus datos personales con el fin de proporcionar y mejorar continuamente nuestros productos y servicios.
+                    Estos son los tipos de datos personales que recabamos:
+                    <br>•	Datos que usted Nos proporciona: Recibimos y almacenamos todos los datos que usted nos proporciona. Puede elegir no proporcionar ciertos datos, sin embargo, podría no ser capaz de aprovechar muchos de nuestros Servicios de Librerías. 
+                    <br><br><h4>¿Con qué fines se utiliza sus Datos Personales?</h4>
+                    Utilizamos sus datos personales para operar, proporcionar, desarrollar y mejorar los productos y servicios que ofrecemos a nuestros clientes. Las finalidades primarias incluyen:
+                    <br>•	Proporcionar, solucionar problemas y mejorar los Servicios. Utilizamos sus datos personales para proporcionar funcionalidad, analizar el rendimiento, corregir errores y mejorar la usabilidad y eficacia de los Servicios.
+                    <br>•	Recomendaciones y personalización. Utilizamos sus datos personales para recomendar aplicaciones, productos y servicios que puedan ser de su interés, identificar sus preferencias y personalizar su experiencia.
+                    <br>•	Prevención de fraude y riesgos de crédito. Utilizamos datos personales para prevenir y detectar fraudes y abusos con el fin de proteger la seguridad de nuestros clientes y otros
+                    <br><br><h4>¿Compartimos sus datos?</h4>
+                    La información relativa a nuestros clientes es parte fundamental de nuestro negocio y no participamos en la venta a terceros de datos personales de nuestros clientes. 
+                    Compartimos los datos personales de los clientes sólo en la forma que se describe a continuación: 
+                    <br> •	Solo los datos personales se van a ocupar para que nuestra empresa recopile y haga una comparación de datos, de usuario a usuario.
+                    <br>Las cuales están sujetas al presente Aviso de Privacidad o siguen prácticas al menos tan protectoras como las descritas en el presente Aviso de Privacidad.
+                    <br><br><h4>Información Automática</h4>
+                    Ejemplos de los datos que recabamos y analizamos:
+                    <br>•	La dirección IP de internet que utiliza para conectarse a Internet con su computadora o dispositivo.
+                    <br>•	Nombre de usuario, dirección de correo electrónico y contraseña.
+                    <br>•	Ubicación de su dispositivo o computadora.
+                    <br>•	Cuentas y contraseñas bancarias.
+                    <br>•	Métricas de dispositivos, como cuando un dispositivo está en uso, uso de aplicaciones, datos de conectividad y cualquier error o falla.
+                    <br><br><h4>Información a la que puede acceder</h4>
+                    Ejemplos de información a la que puede acceder, incluye:
+                        <br>•	Estado de las rentas recientes (incluyendo suscripciones);
+                        <br>•	Historial completo de libros.
+                        <br>•	Datos personales (incluyendo nombre, correo electrónico, contraseña y libreta de direcciones);
+                        <br>•	contenido, dispositivos, servicios y configuraciones relacionadas, comunicaciones y preferencias publicitarias personalizadas;
+       
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

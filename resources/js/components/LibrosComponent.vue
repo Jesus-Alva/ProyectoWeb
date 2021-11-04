@@ -36,23 +36,20 @@
         </div>
         <!-- End Header-->
     <br>
-        <!-- Page content -->
+        <!-- Lista de Libros -->
         <div class="container-fluid mt--6">
             <div class="row">
                 <div class="col">
                     <div class="card">
                         <!-- Ligth table -->
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="justify_content_center; display:flex;">
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
                                     <tr>
                                         <th scope="col" class="sort" data-sort="name">ID</th>
                                         <th scope="col" class="sort" data-sort="budget">ISBN</th>
-                                        <th scope="col" class="sort" data-sort="satatus">Año</th>
-                                        <th scope="col" class="sort" data-sort="satatus">Paginas</th>
                                         <th scope="col" class="sort" data-sort="satatus">Nombre</th>
                                         <th scope="col" class="sort" data-sort="satatus">Descripcion</th>
-                                        <th scope="col" class="sort" data-sort="satatus">Categoria</th>
                                         <th scope="col" class="sort" data-sort="satatus">Autor</th>
                                     </tr>
                                 </thead>
@@ -77,19 +74,10 @@
                                         {{ libro.isbn }}
                                     </td>
                                     <td class="budget">
-                                        {{ libro.anio }}
-                                    </td>
-                                    <td class="budget">
-                                        {{ libro.no_paginas }}
-                                    </td>
-                                    <td class="budget">
                                         {{ libro.nombre }}
                                     </td>
                                     <td class="budget">
                                         {{ libro.descripcion }}
-                                    </td>
-                                    <td class="budget">
-                                        {{ libro.nombre_cat }}
                                     </td>
                                     <td class="budget">
                                         {{ libro.nombre_autor }} <!-- interpolacion --> 
@@ -102,7 +90,7 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                 
-                                                <button class="dropdown-item" @click="fnEditarLibro(libro)">
+                                                <button class="dropdown-item" @click="fnDetalleLibro(libro)">
                                                     <span class="btn-inner--icon"><i class="ni ni-collection"></i></span>
                                                     <span class="btn-inner--text" >Detalles</span>
                                                 </button>
@@ -128,7 +116,7 @@
         </div>
         <!-- END Page content -->
 
-        <!-- Modal -->
+        <!-- MODAL NUEVO LIBRO-->
         <div class="modal fade" id="modalNuevoLibro" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -162,13 +150,13 @@
                                         <input type="text" class="form-control" v-model="nuevoLibro.anio" placeholder="Año"/>
                                         <br>
                                         <label>Categoria</label>
-                                        <select class="form-control" v-model="nuevoLibro.id_categoria" id="cbxcategorias">
-                                            <option class="form-control" v-for="categoria in lista_categorias" :key="categoria.id" v-bind:value="categoria.nombre">
+                                        <select class="form-control" v-model="nuevoLibro.id_categoria"  id="cbxcategorias">
+                                            <option class="form-control" v-for="categoria in lista_categorias" :key="categoria.id" v-bind:value="categoria.id">
                                                 {{ categoria.nombre }}
                                             </option>
                                             <!--<option value="0">Nuevo autor</option>-->
                                         </select>
-                                        <input type="text" class="form-control" placeholder="Nombre del autor">
+                                        <!--<input type="text" class="form-control" placeholder="Nombre del autor">-->
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -252,7 +240,38 @@
                 </div>
             </div>
         </div>
-
+        <!--END Modal Eliminar libro-->
+        <!--Modal Detalle libro-->
+        <div class="modal fade" id="ModalDetalleLibro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">Detalles del Libro</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <font color="black">
+                                <center>   
+                                    <img :src="'/storage/' + detalle_libro.imagen_libro" width="120px">
+                                    <br><br>
+                                    <p>ISBN:<u> {{ detalle_libro.isbn }} </u></p> 
+                                    <p>Año de publicación:<u> {{ detalle_libro.anio }} </u></p>
+                                    <p>Paginas:<u> {{ detalle_libro.no_paginas }} </u></p>
+                                    <p>Nombre:<u> {{ detalle_libro.nombre }} </u></p>
+                                    <p>Descripcion:<u> {{ detalle_libro.descripcion }} </u></p>
+                                    <p>Categoria:<u> {{ detalle_libro.nombre_cat }} </u></p>
+                                    <p>Autor:<u> {{ detalle_libro.nombre_autor }} </u></p>
+                                </center>
+                            </font>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END Modal Eliminar libro-->
     </div>
 </template>
 
@@ -272,6 +291,7 @@ export default {
             lista_eliminar: {},
             libro_eliminar: {},
             imagen_libro: '',
+            detalle_libro: {},
         }
     },
     methods: {
@@ -331,15 +351,16 @@ export default {
 
             const datos_libro = new FormData
 
-            datos_libro.set('id', this.nuevoLibro.id);
+            //datos_libro.set('id', this.nuevoLibro.id);
             datos_libro.set('anio', this.nuevoLibro.anio);
             datos_libro.set('isbn', this.nuevoLibro.isbn);
             datos_libro.set('no_paginas', this.nuevoLibro.no_paginas);
             datos_libro.set('nombre', this.nuevoLibro.nombre);
             datos_libro.set('descripcion', this.nuevoLibro.descripcion);
             datos_libro.set('id_categoria', this.nuevoLibro.id_categoria);
+            datos_libro.set('id_autor', this.nuevoLibro.id_autor);
             datos_libro.set('imagen_libro', this.imagen_libro);
-
+            
             await axios.post("api/guardar_libro", datos_libro)
                 .then((respuesta) => {
                     console.log(respuesta)
@@ -371,7 +392,7 @@ export default {
             this.libro_eliminar = libro
             $("#modal-eliminar").modal("toggle")
         },
-        async fnEliminarLibro(libro){
+        async fnEliminarLibro(){
             await axios.post("api/eliminar_libro", this.libro_eliminar)
                 .then((respuesta) => {
                     console.log(respuesta)
@@ -386,14 +407,9 @@ export default {
                 })
         },
 
-        fnObtenerValor(){
-            let cbxcategorias = document.getElementById('cbxcategorias').value;
-            console.log(cbxcategorias);
-            if(cbxcategorias == 0){
-                console.log('Se muestra un nuevo mimput');
-            }else{
-
-            }
+        fnDetalleLibro(libro){
+            this.detalle_libro = libro
+            $("#ModalDetalleLibro").modal("toggle")
         }
     }
 };
