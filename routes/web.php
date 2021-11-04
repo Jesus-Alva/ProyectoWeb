@@ -36,6 +36,7 @@ Route::get('table-list', function () {return view('pages.tables');})
 ->name('table');
 
 Route::group(['middleware' => 'auth'], function () {
+	
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
@@ -43,10 +44,12 @@ Route::group(['middleware' => 'auth'], function () {
 	 Route::get('map', function () {return view('pages.maps');})->name('map');
 	 Route::get('icons', function () {return view('pages.icons');})->name('icons'); 
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	
 	//CRUD de libros
 	Route::get('libros', [librosController::class, 'index'])
 	->middleware('verificarRol')
 	->name('r.libros');
+	
 	Route::post('api/guardar_libro', [librosController::class, 'guardar']);
 	Route::get('api/libros', [librosController::class, 'listar']);
 	Route::post('api/eliminar_libro', [librosController::class, 'eliminar']);
@@ -61,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('api/categorias', [categoriasController::class, 'listar'])->middleware('verificarRol');
 	Route::post('api/guardarCategoria', [categoriasController::class, 'guardar'])->middleware('verificarRol');
 	Route::post('api/eliminarCategoria', [categoriasController::class, 'eliminar'])->middleware('verificarRol');
-
+	//CRUD de autores
 	Route::get('autores', [autoresController::class, 'index'])->name('r.autores')->middleware('verificarRol');
 	Route::get('api/autores', [autoresController::class, 'listar'])->middleware('verificarRol');
 	Route::post('api/guardarAutor', [autoresController::class, 'guardar'])->middleware('verificarRol');
