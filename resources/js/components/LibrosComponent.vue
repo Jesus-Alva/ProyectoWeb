@@ -324,7 +324,7 @@ export default {
 
             await axios.get("api/categorias")
                 .then((respuesta) => {
-                    console.log(respuesta.data.message)
+                    console.log(respuesta.data)
                     this.lista_categorias = respuesta.data
                 })
                 .catch((error) => {
@@ -337,7 +337,7 @@ export default {
 
             await axios.get("api/autores")
                 .then((respuesta) => {
-                    console.log(respuesta.data.message)
+                    console.log(respuesta.data)
                     this.lista_autores = respuesta.data
                 })
                 .catch((error) => {

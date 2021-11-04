@@ -134,7 +134,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('r.categorias') }}">
                       <i class="ni ni-bullet-list-67 text-default"></i>
-                      <span class="nav-link-text">Catgorias</span>
+                      <span class="nav-link-text">Categorias</span>
                     </a>
                 </li>
                 <li class="nav-item">

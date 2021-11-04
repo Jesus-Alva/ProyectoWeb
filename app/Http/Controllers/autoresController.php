@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\autores;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class autoresController extends Controller
 {
@@ -12,6 +13,9 @@ class autoresController extends Controller
     }
     public function listar(){
         return autores::all();
+        $autores = DB::table('autores')
+                ->select('libros.*')
+                ->get();
     }
     public function guardar(Request $request){
 

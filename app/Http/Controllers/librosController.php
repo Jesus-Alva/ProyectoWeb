@@ -63,7 +63,7 @@ class librosController extends Controller
         $libro -> nombre = $request->nombre;
         $libro -> descripcion = $request->descripcion;
         $libro -> id_categoria = $request->id_categoria;
-        $libro -> id_autor =  1 ;
+        $libro -> id_autor =  $request->id_autor ;
 
         $libro->imagen_libro = $request->file("imagen_libro")->store('imagenes','public');
 

@@ -3110,7 +3110,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return axios.get("api/categorias").then(function (respuesta) {
-                  console.log(respuesta.data.message);
+                  console.log(respuesta.data);
                   _this2.lista_categorias = respuesta.data;
                 })["catch"](function (error) {
                   console.log(error.response.data);
@@ -3134,7 +3134,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return axios.get("api/autores").then(function (respuesta) {
-                  console.log(respuesta.data.message);
+                  console.log(respuesta.data);
                   _this3.lista_autores = respuesta.data;
                 })["catch"](function (error) {
                   console.log(error.response.data.message);
