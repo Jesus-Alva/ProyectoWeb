@@ -16,6 +16,8 @@ class autoresController extends Controller
         $autores = DB::table('autores')
                 ->select('libros.*')
                 ->get();
+
+        return $autores;
     }
     public function guardar(Request $request){
 

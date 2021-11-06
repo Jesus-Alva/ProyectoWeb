@@ -27,24 +27,11 @@ class librosController extends Controller
 
         $reglas = [
             'isbn' => 'required',
-            'nombre' => 'required|min:3',
-            'anio' => 'required|numeric|min:1900',
-            'no_paginas' => 'required|numeric|min:100',
-            //'autor' => 'required'
+
         ];
 
         $mensajes = [
-            'isbn.required' => "El campo ISBN no puede estar vacio.",
-            'nombre.required' => "El campo nombre es un valor requerido.",
-            'nombre.min' => "El campo requiere por lo minimo 3 caracteres.",
-            'anio.required' => "El campo año no puede estar vacio.",
-            'anio.numeric' => "Solo se permiten numero para el año.",
-            'anio.min' => "El campo AÑO requiere un dato mas reciente.",
-            'no_paginas.required' => "Ingresa un numero de paginas.",
-            'no_paginas.numeric' => "Solo se permiten numeros en las paginas.",
-            'no_paginas.min' => "Solo se permiten 3 o mas caracteres en las paginas",
-            //'categoria.required' => "El campo categoria es un valor requerido.",
-            //'autor.required' => "El campo autor es un valor requerido."
+            'isbn.required' => "El campo ISB no puede estar vacio."
             
         ];
 
@@ -65,7 +52,7 @@ class librosController extends Controller
         $libro -> id_categoria = $request->id_categoria;
         $libro -> id_autor =  $request->id_autor ;
 
-        $libro->imagen_libro = $request->file("imagen_libro")->store('imagenes','public');
+        $libro -> imagen_libro = $request -> file("imagen_libro") -> store('imagenes','public');
 
         $libro -> save();
     }

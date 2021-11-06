@@ -296,7 +296,7 @@ export default {
     },
     methods: {
         obtenerImagen(e){
-            this.imagen_libro = e.target.files[0];
+            this.imagen_libro = e.target.files[0]
         },
 
         fnNuevoLibro() {
@@ -310,9 +310,9 @@ export default {
 
             await axios.get("api/libros")
                 .then((respuesta) => {
-                    
+                    console.log("Datos de los libros:"+respuesta.data)
                     this.lista_libros = respuesta.data;
-                    console.log(this.lista_libros)
+                    
                 })
                 .catch((error) => {
                     
@@ -324,7 +324,7 @@ export default {
 
             await axios.get("api/categorias")
                 .then((respuesta) => {
-                    console.log(respuesta.data)
+                    console.log("Datos de las categorias:"+respuesta.data)
                     this.lista_categorias = respuesta.data
                 })
                 .catch((error) => {
@@ -337,7 +337,7 @@ export default {
 
             await axios.get("api/autores")
                 .then((respuesta) => {
-                    console.log(respuesta.data)
+                    console.log("Datos de los autores"+respuesta.data)
                     this.lista_autores = respuesta.data
                 })
                 .catch((error) => {
@@ -351,7 +351,10 @@ export default {
 
             const datos_libro = new FormData
 
-            //datos_libro.set('id', this.nuevoLibro.id);
+            
+            datos_libro.set('id', this.nuevoLibro.id);
+            
+            
             datos_libro.set('anio', this.nuevoLibro.anio);
             datos_libro.set('isbn', this.nuevoLibro.isbn);
             datos_libro.set('no_paginas', this.nuevoLibro.no_paginas);
@@ -372,13 +375,13 @@ export default {
                 .catch((error) => {
                     
                     console.log(error.response.data.message)
-
-                    if(error.response.data != null){
-                        var llaves= Object.keys(error.response.data)
+                   
+                    if(error.response.data.errors != null){
+                        var llaves= Object.keys(error.response.data.errors)
 
                         this.errores = error.response.data.errors[llaves[0]][0]
                     }else{
-                        this.errores = error.response.message
+                        this.errores = error.message
                     }
 
                 })
@@ -386,6 +389,7 @@ export default {
         fnEditarLibro(libro){
             this.nuevoLibro = libro
             this.listar_categorias()
+            this.listar_autores()
             $("#modalNuevoLibro").modal("toggle")
         },
         fnMostrarModalEliminarLibro(libro){

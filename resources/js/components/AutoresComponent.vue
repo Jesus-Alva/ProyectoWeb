@@ -207,14 +207,14 @@ export default {
                 })
                 .catch((error) => {
                     
-                    console.log(error.response.data)
-
-                    if(error.response.data != null){
-                        var llaves= Object.keys(error.response.data)
+                    console.log(error.response.data.message)
+                   
+                    if(error.response.data.errors != null){
+                        var llaves= Object.keys(error.response.data.errors)
 
                         this.errores = error.response.data.errors[llaves[0]][0]
                     }else{
-                        this.errores = error.response
+                        this.errores = error.message
                     }
 
                 })

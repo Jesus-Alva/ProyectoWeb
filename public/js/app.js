@@ -2297,13 +2297,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this.listar_autores();
                 })["catch"](function (error) {
-                  console.log(error.response.data);
+                  console.log(error.response.data.message);
 
-                  if (error.response.data != null) {
-                    var llaves = Object.keys(error.response.data);
+                  if (error.response.data.errors != null) {
+                    var llaves = Object.keys(error.response.data.errors);
                     _this.errores = error.response.data.errors[llaves[0]][0];
                   } else {
-                    _this.errores = error.response;
+                    _this.errores = error.message;
                   }
                 });
 
@@ -2654,13 +2654,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   _this2.listar_categorias();
                 })["catch"](function (error) {
-                  console.log(error.response.data);
+                  console.log(error.response.data.message);
 
-                  if (error.response.data != null) {
-                    var llaves = Object.keys(error.response.data);
+                  if (error.response.data.errors != null) {
+                    var llaves = Object.keys(error.response.data.errors);
                     _this2.errores = error.response.data.errors[llaves[0]][0];
                   } else {
-                    _this2.errores = error.response;
+                    _this2.errores = error.message;
                   }
                 });
 
@@ -3086,8 +3086,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return axios.get("api/libros").then(function (respuesta) {
+                  console.log("Datos de los libros:" + respuesta.data);
                   _this.lista_libros = respuesta.data;
-                  console.log(_this.lista_libros);
                 })["catch"](function (error) {
                   console.log(error.response.data);
                 });
@@ -3110,7 +3110,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return axios.get("api/categorias").then(function (respuesta) {
-                  console.log(respuesta.data);
+                  console.log("Datos de las categorias:" + respuesta.data);
                   _this2.lista_categorias = respuesta.data;
                 })["catch"](function (error) {
                   console.log(error.response.data);
@@ -3134,7 +3134,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return axios.get("api/autores").then(function (respuesta) {
-                  console.log(respuesta.data);
+                  console.log("Datos de los autores" + respuesta.data);
                   _this3.lista_autores = respuesta.data;
                 })["catch"](function (error) {
                   console.log(error.response.data.message);
@@ -3157,8 +3157,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                datos_libro = new FormData(); //datos_libro.set('id', this.nuevoLibro.id);
-
+                datos_libro = new FormData();
+                datos_libro.set('id', _this4.nuevoLibro.id);
                 datos_libro.set('anio', _this4.nuevoLibro.anio);
                 datos_libro.set('isbn', _this4.nuevoLibro.isbn);
                 datos_libro.set('no_paginas', _this4.nuevoLibro.no_paginas);
@@ -3167,7 +3167,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 datos_libro.set('id_categoria', _this4.nuevoLibro.id_categoria);
                 datos_libro.set('id_autor', _this4.nuevoLibro.id_autor);
                 datos_libro.set('imagen_libro', _this4.imagen_libro);
-                _context4.next = 11;
+                _context4.next = 12;
                 return axios.post("api/guardar_libro", datos_libro).then(function (respuesta) {
                   console.log(respuesta);
                   $('#modalNuevoLibro').modal('toggle'); //se esconde el formulario
@@ -3182,15 +3182,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 })["catch"](function (error) {
                   console.log(error.response.data.message);
 
-                  if (error.response.data != null) {
-                    var llaves = Object.keys(error.response.data);
+                  if (error.response.data.errors != null) {
+                    var llaves = Object.keys(error.response.data.errors);
                     _this4.errores = error.response.data.errors[llaves[0]][0];
                   } else {
-                    _this4.errores = error.response.message;
+                    _this4.errores = error.message;
                   }
                 });
 
-              case 11:
+              case 12:
               case "end":
                 return _context4.stop();
             }
@@ -3201,6 +3201,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     fnEditarLibro: function fnEditarLibro(libro) {
       this.nuevoLibro = libro;
       this.listar_categorias();
+      this.listar_autores();
       $("#modalNuevoLibro").modal("toggle");
     },
     fnMostrarModalEliminarLibro: function fnMostrarModalEliminarLibro(libro) {

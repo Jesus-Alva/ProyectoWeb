@@ -118,12 +118,19 @@
                     </a>
                 </li>
                 -->
+                @can('es_client', Auth()->user())
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
                         <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('r.libros') }}">
+                      <i class="ni ni-book-bookmark text-default"></i>
+                      <span class="nav-link-text">Libros</span>
+                    </a>
+                </li>
+                @endcan
                 @can('es_admin', Auth()->user())
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('r.libros') }}">
